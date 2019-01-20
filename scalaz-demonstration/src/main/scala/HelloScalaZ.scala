@@ -1,4 +1,5 @@
 import scalaz._
+import scalaz.Applicative._
 
 import scala.util.Try
 
@@ -40,6 +41,7 @@ object HelloScalaZ {
     println(mayFail map (_ + 3))
 
   }
+
 
 
 

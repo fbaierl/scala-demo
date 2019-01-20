@@ -3,9 +3,6 @@ import cats.implicits._
 object HelloCats {
 
   def main(args: Array[String]): Unit = {
-
-
-
 //    val m1 = Map("agent1" -> 1, "agent2" -> 2)
 //    val m2 = Map("agent1" -> 1, "agent3" -> 3)
 //
@@ -17,9 +14,25 @@ object HelloCats {
     // demo_>>=()
 
     // pole.demoNonFP()
-    pole demoFP2()
+    // pole demoFP2()
+    // demoFmap()
+
+    demoAp()
   }
 
+  private def demoFmap(): Unit = {
+
+    val plusOne: Int => Int = _ + 1
+    val plusTwo: Int => Int = _ + 1
+
+    val o1: Option[Int] = Some(2)
+    val l1: List[Int] = List(1,2,3)
+    val x = o1 fmap plusOne
+    val xl = l1 fmap plusOne
+    val plusThree = plusOne andThen plusTwo
+    println (x)
+    println (xl)
+  }
 
   private def demo_>>=(): Unit = {
 
@@ -64,4 +77,18 @@ object HelloCats {
 
   }
 
+
+  private def demoAp(): Unit = {
+
+    val o1: Option[Int] = Some(2)
+    val o2: Option[Int => Int] = Some(_ + 2)
+
+    println (o2 <*> o1)
+
+    val l1: List[Int] = List(1,2,3)
+    val l2: List[Int => Int] = List(_ + 1, _ + 2)
+
+    println (l2 <*> l1)
+
+  }
 }

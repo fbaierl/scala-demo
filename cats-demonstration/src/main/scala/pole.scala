@@ -68,7 +68,7 @@ object pole {
     val rrl = Monad[Option].pure(Pole(0,0)) >>= { _.landRight(2) } >>= { _.landRight(2) } >>= {_.landLeft(2)}
     println (rrl)
 
-    val lll = Option(Pole(0,0)) flatMap {_.landLeft(2)} flatMap {_.landLeft(2)} flatMap {_.landLeft(2)}
+    val lll = Option(Pole(0,0)) >>= {_.landLeft(2)} >>= {_.landLeft(2)} >>= {_.landLeft(2)}
     println (lll)
   }
 
