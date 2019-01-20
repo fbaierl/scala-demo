@@ -6,13 +6,32 @@ object HelloCats {
 
 
 
-    val m1 = Map("agent1" -> 1, "agent2" -> 2)
-    val m2 = Map("agent1" -> 1, "agent3" -> 3)
+//    val m1 = Map("agent1" -> 1, "agent2" -> 2)
+//    val m2 = Map("agent1" -> 1, "agent3" -> 3)
+//
+//    println ("Hello " |+| "World!")
+//    println (1 |+| 2)
+//    println (m1 |+| m2)
 
-    println ("Hello " |+| "World!")
-    println (1 |+| 2)
-    println (m1 |+| m2)
 
+    // demo_>>=()
+
+    // pole.demoNonFP()
+    pole demoFP2()
+  }
+
+
+  private def demo_>>=(): Unit = {
+
+    val l1 = List(1,2,3)
+    val l2 = List(4,5)
+
+    val res = l1 >>= (x => l2 map (_ * x))
+
+    println(res)
+  }
+
+  private def demoApplicative(): Unit = {
 
     /**
       * construct Foo with optional parameters

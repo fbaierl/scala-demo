@@ -1,6 +1,6 @@
 # INTERESTING LIBRARIES
 
-- cats https://github.com/typelevel/cats
+- [cats](https://github.com/typelevel/cats) [docu](https://typelevel.org/cats/)
 - mouse https://github.com/typelevel/mouse
 
 https://www.youtube.com/watch?v=4QIgEMvUfIE
@@ -162,34 +162,40 @@ Example:
 
 ## monads
 
-Monads are meat for _sequencing computations_
+Monads are meant for _sequencing computations_
 
 ### applicatives
 
 ```scala
-        /**
-      * construct Foo with optional parameters
-      */
-    case class Foo(x: Int, y: Int)
+/**
+  * construct Foo with optional parameters
+  */
+case class Foo(x: Int, y: Int)
 
-    val o1: Option[Int] = Some(2)
-    val o2: Option[Int] = Some(3)
+val o1: Option[Int] = Some(2)
+val o2: Option[Int] = Some(3)
 
-    // bad "java-style"
-    var foo1: Option[Foo] = None
-    if(o1.isDefined && o2.isDefined) {
-      foo1 = Some(Foo(o1.get, o2.get))
-    }
+// bad "java-style"
+// - var 
+// - need to look inside Monad manually (get) - prone to failure
+// - ugly & complicated
+var foo1: Option[Foo] = None
+if(o1.isDefined && o2.isDefined) {
+  foo1 = Some(Foo(o1.get, o2.get))
+}
 
-    // okay scala
-    val foo2 = for {
-      x <- o1
-      y <- o2
-    } yield Foo(x,y)
+// okay scala
+// for - comprehension; essentially strips away the monad to work on inner value
+// chain needs to be same kind of monad
+// for default case, Foo is default also
+val foo2 = for {
+  x <- o1
+  y <- o2
+} yield Foo(x,y)
 
-    // ((ΦωΦ))
-    val foo3 = (o1 |@| o2) map Foo
-    val foo4 = (o1, o2) mapN Foo
+// ((ΦωΦ))
+val foo3 = (o1 |@| o2) map Foo
+val foo4 = (o1, o2) mapN Foo
 ```
 
 ## semigroupal
@@ -208,7 +214,7 @@ https://github.com/typelevel/cats/blob/master/core/src/main/scala/cats/Semigroup
 
 https://stackoverflow.com/questions/5598085/where-does-scala-look-for-implicits
 
-### implicit converters
+### implicit type converters
 ### implicit parameters
 
 ## imperobabilty w/ Clojure
