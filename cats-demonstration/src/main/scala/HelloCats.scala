@@ -17,7 +17,14 @@ object HelloCats {
     // pole demoFP2()
     // demoFmap()
 
-    demoAp()
+    // demoAp()
+
+    IOMonad.calcuations(2,3)
+
+    val program = IOMonad.pureCalcuations(2,3)
+
+    // 'end-of-the-world' (where unpure stuff lives)
+    program.unsafeRunSync()
   }
 
   private def demoFmap(): Unit = {
