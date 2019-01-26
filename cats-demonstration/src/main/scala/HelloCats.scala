@@ -18,13 +18,15 @@ object HelloCats {
     // demoFmap()
 
     // demoAp()
+//
+//    IOMonad.calcuations(2,3)
+//
+//    val program = IOMonad.pureCalcuations(2,3)
+//
+//    // 'end-of-the-world' (where unpure stuff lives)
+//    program.unsafeRunSync()
 
-    IOMonad.calcuations(2,3)
-
-    val program = IOMonad.pureCalcuations(2,3)
-
-    // 'end-of-the-world' (where unpure stuff lives)
-    program.unsafeRunSync()
+    typeInduction.run()
   }
 
   private def demoFmap(): Unit = {
