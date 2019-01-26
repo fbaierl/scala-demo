@@ -3,6 +3,11 @@
 - [cats](https://github.com/typelevel/cats) [docu](https://typelevel.org/cats/)
 - mouse https://github.com/typelevel/mouse
 
+# INTERESTING READS
+
+
+https://softwaremill.com/applicative-functor/
+http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html
 https://www.youtube.com/watch?v=4QIgEMvUfIE
 
 # THE GOOD 
@@ -216,6 +221,7 @@ https://stackoverflow.com/questions/5598085/where-does-scala-look-for-implicits
 
 ### implicit type converters
 ### implicit parameters
+### implicit classes
 
 ## imperobabilty w/ Clojure
 
