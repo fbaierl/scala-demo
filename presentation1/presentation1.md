@@ -71,10 +71,15 @@ Yes
 1. A custom-made list
 
 ```scala
+
+case class Si()
+case class Ge()
+case class Pb()
+
 type EOL = () // base case
 
 // encode [Int, Char, String] as 
-(Int, (Char, (String, EOL))) // (head, tail) becomes induction step
+(Ge, (Si, (Pb, EOL))) // (head, tail) becomes induction step
 ```
 
 Let's call this `(_, (_, (_, EOL))` tuple-list.
@@ -83,10 +88,6 @@ Let's call this `(_, (_, (_, EOL))` tuple-list.
 
 ```scala
 trait Located[A] { val location: String }
-
-case class Si()
-case class Ge()
-case class Pb()
 
 implicit val locatedSi = new Located[Silicon] { val location = "agv" }
 implicit val locatedGe = new Located[Germanium] { val location = "plan" }
