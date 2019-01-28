@@ -94,7 +94,7 @@ implicit val locatedGe = new Located[Germanium] { val location = "plan" }
 implicit val locatedPb = new Located[Lead] { val location = "plc" }
 ```
 
-3. Induction w/ **Disliked[A]**
+3. Induction w/ **Located[A]**
 
 Goal: A list of location for _any_ tuple-list
 
@@ -146,5 +146,7 @@ implicitly[Located[(Si, (Ge, (Pb, (Pb, (Ge, (Si, EOL))))))]].location
 ```
 
 Close enough!
+
+Final question: How can we remove the trailing comma?
 
 TODO add graph on how this works
