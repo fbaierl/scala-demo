@@ -2,9 +2,24 @@
 
 ## Basics I: Implicits 
 
+```scala
+val x: Int = 42.2 // doesn't work
+```
+
+```scala
+implicit def doubleToInt(d: Double) = d.toInt // anywhere in scope
+val x: Int = 42.2 // works 
+```
+
+```scala
+implicit val helloWorld: String = "Hello World" // anywhere in scope
+
+println(implicitly[String]) // "Hello World"
+```
 
 
 ## Implicit type converters
+
 
 Show in Bor!
 
