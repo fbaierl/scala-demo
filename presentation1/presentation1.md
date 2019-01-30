@@ -103,7 +103,7 @@ A way of proofing that a property P(n) holds for every natural number n, i.e. fo
 - base case (0)
 - induction step (n+1)
 
-### The cool part: Typeclass induction
+## The cool part: Typeclass induction
 
 The question on everyone's mind right now: 
 
