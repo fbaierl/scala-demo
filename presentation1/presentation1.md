@@ -18,10 +18,35 @@ println(implicitly[String]) // "Hello World"
 ```
 
 
-## Implicit type converters
+## "Retrofitting" existing or new types
 
+One of two ways of retrofitting existing or new types (other one is type classes).
 
-Show in Bor!
+Implicit type converters:
+
+```scala
+implicit def string2quant(s: String) = new Quantifiable{ 
+  def quantify = s.size 
+}
+implicit def list2quantifiable[A](l: List[A]) = new Quantifiable{ 
+  val quantify = l.size 
+}
+```
+
+Type classes:
+
+```scala
+trait Quantified[A] { def quantify(a: A): Int }
+
+implicit val stringQuantifiable = new Quantified[String] {
+  def quantify(s: String) = s.size 
+}
+
+// example usage: a method that needs to quantify its arguments
+def sumQuantities[A](as: List[A])(implicit ev: Quantified[A]) = as.map(ev.quantify).sum
+```
+
+One thing that you can achieve with type classes and not with implicit conversions is adding properties to a type, rather than to an instance of a type. 
 
 ## Basics II: Induction
 
