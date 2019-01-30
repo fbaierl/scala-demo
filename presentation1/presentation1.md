@@ -18,7 +18,7 @@ println(implicitly[String]) // "Hello World"
 ```
 
 
-## "Retrofitting" existing or new types
+### "Retrofitting" existing or new objects with iplicit type converters
 
 One of two ways of retrofitting existing or new types (other one is type classes).
 
@@ -36,7 +36,11 @@ implicit def list2quantifiable[A](l: List[A]) = new Quantifiable{
 }
 ```
 
-Type classes:
+## Basics II: Typeclasses
+
+'A typeclass associates functionality with a type'
+
+- e.g. Quantified
 
 ```scala
 trait Quantified[A] { def quantify(a: A): Int }
@@ -49,20 +53,7 @@ implicit val stringQuantifiable = new Quantified[String] {
 def sumQuantities[A](as: List[A])(implicit ev: Quantified[A]) = as.map(ev.quantify).sum
 ```
 
-One thing that you can achieve with type classes and not with implicit conversions is adding properties to a type, rather than to an instance of a type. 
-
-## Basics II: Induction
-
-A way of proofing that a property P(n) holds for every natural number n, i.e. for n = 0, 1, 2, 3, etc.
-
-- base case (0)
-- induction step (n+1)
-
-## Basics III: Typeclasses
-
-'A typeclass associates functionality with a type'
-
-e.g. cats.Semigroup
+- e.g. cats.Semigroup
 
 A semigroup for some given type A has a single operation (combine), which takes two values of type A, and returns a value of type A. 
 
@@ -102,6 +93,15 @@ implict def optionCombinable[A](implicit combinableA: Combinable[A]) =
     }
 
 ```
+
+One thing that you can achieve with type classes and not with implicit conversions is adding properties to a type, rather than to an instance of a type. 
+
+## Basics III: Induction
+
+A way of proofing that a property P(n) holds for every natural number n, i.e. for n = 0, 1, 2, 3, etc.
+
+- base case (0)
+- induction step (n+1)
 
 ### The cool part: Typeclass induction
 
