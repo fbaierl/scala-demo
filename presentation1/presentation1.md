@@ -25,9 +25,12 @@ One of two ways of retrofitting existing or new types (other one is type classes
 Implicit type converters:
 
 ```scala
+trait Quantifiable{ def quantify: Int }
+
 implicit def string2quant(s: String) = new Quantifiable{ 
   def quantify = s.size 
 }
+
 implicit def list2quantifiable[A](l: List[A]) = new Quantifiable{ 
   val quantify = l.size 
 }
