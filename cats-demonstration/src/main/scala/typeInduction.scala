@@ -20,7 +20,10 @@ object typeInduction {
   // notice: this is a implicit *method*
   implicit def inductionStep[H, T] (implicit locatedHead: Located[H], locatedTail: Located[T]): Located[(H, T)] =
     new Located[(H,T)]  {
-      val location = s"${locatedHead.location}, ${locatedTail.location}"
+      val location: String =
+        locatedHead.location +
+        (if(locatedTail.location != "") ", " else "") +
+        locatedTail.location
     }
 
   def run(): Unit = {

@@ -1,3 +1,4 @@
+import cats.Semigroup
 import cats.implicits._
 
 object HelloCats {
@@ -26,7 +27,44 @@ object HelloCats {
 //    // 'end-of-the-world' (where unpure stuff lives)
 //    program.unsafeRunSync()
 
-    typeInduction.run()
+    // typeInduction.run()
+
+    val x = Semigroup[Int => Int].combine(x => x + 1, x => x * 10)// .apply(6)
+
+    val y = Semigroup[Int => Int].combine(_ + 1, _ * 10).apply(1)
+
+    val z = Semigroup[Int => Int].combine(_ + 1, _ + 2).apply(1)
+
+
+    val f1: Int => Int = x => x + 1
+    val f2: Int => Int = x => x * 10
+    val f3: Int => Int = f1 andThen f2
+    println(f3(6))
+
+    val list = List(1, 2, 3, 4, 5)
+    val (left, right) = list.splitAt(2)
+    val sumLeft = left.foldLeft(0)(_ |+| _)
+    val sumRight = right.foldLeft(0)(_ |+| _)
+    val result = sumLeft |+| sumRight
+
+    println(result)
+//
+//    def printNumber(implicit x: Int): Unit = println(x)
+//
+//    implicit val x: Int = 10
+//
+//    printNumber
+//    printNumber(x)
+//
+//    typeInduction.run()
+  }
+
+  implicit def optionSemigroup[A](implicit s: Semigroup[A]): Semigroup[Option[A]] =
+  new Semigroup[Option[A]] {
+    def combine (oa1: Option[A], oa2: Option[A]): Option[A] = for {
+      a1 <- oa1
+      a2 <- oa2
+    } yield s.combine(a1, a2)
   }
 
   private def demoFmap(): Unit = {
