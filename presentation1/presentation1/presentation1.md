@@ -1,6 +1,6 @@
 class: middle, center
 
-# Implicit Typclass Induction 
+# Implicit Typeclass Induction 
 ### with Scala
 
 Florian Baierl 2018
@@ -11,13 +11,13 @@ class: middle, center
 # Agenda 
 
 .left[
-- Basics I: Implicits 
+- Basics I: Implicits (& Quiz I) 
 
-- Basics II: Typeclasses
+- Basics II: Typeclasses (& Quiz II) 
 
 - (Basics III: Induction)
 
-- The cool part: Typeclass induction
+- The cool part: Typeclass induction (& Quiz III) 
 
 ]
 ---
@@ -43,7 +43,7 @@ The _implicitly_ keyword:
 implicit val x = 10
 implicit val y = "20"
 
-println(implicitly[Int]) // "10"
+println(implicitly[Int]) // 10
 ```
 
 ---
@@ -56,8 +56,8 @@ def printNumber(implicit x: Int): Unit = println(x)
 
 implicit val x: Int = 10
 
-printNumber    // "10"
-printNumber(x) // "10"
+printNumber    // 10
+printNumber(x) // 10
 ```
 
 ---
@@ -122,11 +122,37 @@ string.quantify // 12
 ```
 
 ---
-class: middle center
+class: middle
 
 ## A real life example (taken from Bor)
 
+In _gallium.models_:
+
+```scala
+case class GeResource(id: String, kind: String, properties: Map[String, String])
+```
+
+In _bor_:
+```scala
+trait GeResourceSyntax  {
+  implicit final def toResourceOps(res: GeResource): GeResourceOps = new GeResourceOps(res)
+}
+
+final class GeResourceOps(private val res: GeResource) extends AnyVal {
+
+	def toStation: UnableToParseGeResourceError Either FleetViewStation = ???
+	def toProduct: UnableToParseGeResourceError Either production.Product = ???
+	def toProductType: UnableToParseGeResourceError Either production.ProductType = ???
+}
+```
+
 ---
+class: middle center
+
+## Another use case in Bor
+---
+
+class: middle
 
 ```scala
 import scala.collection.generic.CanBuildFrom
@@ -153,11 +179,38 @@ final class EitherTraversableOps[A, B, CC[X] <: Traversable[X]](private val l: C
   def splitEithers(implicit bfa: CanBuildFrom[Nothing, A, CC[A]],
                    bfb: CanBuildFrom[Nothing, B, CC[B]]): (CC[A], CC[B]) = {
     def lefts: CC[A] = // ...
-    def rights: CC[A] = // ...
+    def rights: CC[B] = // ...
     (lefts, rights)
   }
 }
 ```
+
+
+---
+class: middle
+
+## Quiz I: What does this output?
+
+```scala
+object Whatever{
+	def speak(something: String)(implicit nice: String)={
+		println(s"$something $nice")
+	}
+}
+
+implicit val nice= "the walrus"
+
+println{ Whatever.speak("I am") }
+println{ Whatever.speak("I like")("catfood") }
+```
+
+---
+class: middle
+
+## Solution I: 
+### "I am the walrus"
+### "I like catfood" 
+
 
 ---
 class: middle center
@@ -226,7 +279,7 @@ twoOrError |+| oneOrError // Left(Error())
 ---
 class: middle
 
-### Question: What should this be?
+### Quiz II: What should this be?
 
 ```scala
 import cats.implicits._
@@ -238,7 +291,7 @@ Semigroup[Int => Int].combine(_ + 1, _ * 10).apply(6) should be ??
 
 ---
 class: middle
-### Solution: 67
+### Solution II: 67
 
 Note, that this differs from:
 
@@ -285,8 +338,10 @@ class: middle
 > _"Applicative + flatten method"_
 - ...
 
-.footnote[
+.footnote[
+
 See: https://typelevel.org/cats/typeclasses.html]
+
 ---
 class: middle center
 ## Basics III: Induction
@@ -301,17 +356,14 @@ A way of proofing that a property P(n) holds for every natural number n, i.e. fo
 - base case (0)
 - induction step (n+1)
 
+<img src="dominos.jpg" alt="drawing" width="400"/>
+
 ---
 class: middle center
 
 ## The cool part: Typeclass induction
 
----
-class: middle center
-
-The question on everyone's mind right now: 
-
-## Can we leverage __implicit resolution__ to do __typeclass induction__?
+### Can we leverage __implicit resolution__ to do __typeclass induction__?
 
 ---
 class: middle
@@ -339,9 +391,9 @@ class: middle
 ```scala
 trait Located[A] { val location: String }
 
-implicit val locatedSi = new Located[Silicon]   { val location = "agv"  }
-implicit val locatedGe = new Located[Germanium] { val location = "plan" }
-implicit val locatedPb = new Located[Lead]      { val location = "plc"  }
+implicit val locatedSi = new Located[Si] { val location = "agv"  }
+implicit val locatedGe = new Located[Ge] { val location = "plan" }
+implicit val locatedPb = new Located[Pb] { val location = "plc"  }
 ```
 
 ---
@@ -352,7 +404,7 @@ class: middle
 A list of locations for _any_ tuple-list
 
 ```scala
-Located[(Si, (Ge, (Pb, EOL))].located // should print: "agv, plan, plc"
+Located[(Si, (Ge, (Pb, EOL))].location // should print: "agv, plan, plc"
 ```
 
 ---
@@ -416,12 +468,12 @@ class: middle
 ---
 class: middle, center
 
-## Final question: How can we remove the trailing comma?
+## Quiz III: How can we remove the trailing comma?
 
 ---
 class: middle
 
-## Solution
+## Solution III
 
 ```scala
 implicit def inductionStep[H, T] (implicit locatedHead: Located[H], locatedTail: Located[T]): Located[(H, T)] =
@@ -436,4 +488,5 @@ implicit def inductionStep[H, T] (implicit locatedHead: Located[H], locatedTail:
 ---
 class: middle center
 
-### Thanks for your attention!
+### Thanks you for your attention!
+## Questions?
